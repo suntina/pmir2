@@ -223,7 +223,7 @@ class ServerState
     // 服务器端发送的命令 SM:server msg,服务端向客户端发送的消息
     // 登录、新帐号、新角色、查询角色等
     const SM_CERTIFICATION_FAIL    = 501; //世界服务器认证失败
-    const SM_ID_NOTFOUND           = 502;
+    const SM_ID_NOTFOUND           = 502; //服务器未找到
     const SM_PASSWD_FAIL           = 503; // 验证失败,"服务器验证失败,需要重新登录"??
     const SM_NEWID_SUCCESS         = 504; // 创建新账号成功
     const SM_NEWID_FAIL            = 505; // 创建新账号失败
@@ -268,10 +268,10 @@ class ServerState
     const SM_SENDUSEITEMS  = 621;
     const SM_WEIGHTCHANGED = 622;
     const SM_CLEAROBJECTS  = 633;
-    const SM_CHANGEMAP     = 634;// 地图改变,进入新地图
-    const SM_EAT_OK   = 635;
-    const SM_EAT_FAIL = 636;
-    const SM_BUTCH    = 637;
+    const SM_CHANGEMAP     = 634; // 地图改变,进入新地图
+    const SM_EAT_OK        = 635;
+    const SM_EAT_FAIL      = 636;
+    const SM_BUTCH         = 637;
     // 野蛮?
     const SM_MAGICFIRE = 638;
     // 地狱火,火墙??
@@ -1061,7 +1061,7 @@ class ServerState
     // ==============================================================================
     // 英雄
     // //////////////////////////////////////////////////////////////////////////////
-    const CM_RECALLHERO = 5000;// 召唤英雄
+    const CM_RECALLHERO = 5000; // 召唤英雄
     const SM_RECALLHERO = 5001;
     const CM_HEROLOGOUT = 5002;
     // 英雄退出

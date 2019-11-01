@@ -10,9 +10,17 @@ use core\query\DB;
  */
 class Character
 {
-	//召唤英雄
-	public function RecallHero($serv, $fd, $data = null)
+	//查询角色
+	public static function QueryCharacter($serv, $fd, $data = null)
 	{
-		var_dump(ToStr($data));
+
+	}
+
+	//创建
+	public static function NewCharacter($serv, $fd, $data = null)
+	{
+		$param = ToStr($data);
+		$param = gbktoutf8($param);
+		var_dump($param);
 	}
 }

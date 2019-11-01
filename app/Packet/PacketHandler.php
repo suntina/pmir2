@@ -102,7 +102,7 @@ class PacketHandler
             $nDestPos++;
         }
 
-        $pDest[$nDestPos] = 0;
+        // $pDest[$nDestPos] = 0;
         return $pDest;
     }
 

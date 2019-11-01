@@ -12,9 +12,12 @@ class Reflection
         'CM_CHANGEPASSWORD'  => ['app\Auth\User', 'ChangePassWord'],
         'CM_IDPASSWORD'      => ['app\Auth\User', 'UserLogin'],
         'CM_GETBACKPASSWORD' => ['app\Auth\User', 'GetBackPassWord'],
+        'CM_SELECTSERVER'    => ['app\Auth\User', 'SelectServer'],
 
         //角色相关
-        'CM_RECALLHERO' => ['app\Auth\Character', 'RecallHero'],
+        'CM_QUERYCHR'        => ['app\Auth\Character', 'QueryCharacter'],
+        'CM_NEWCHR'          => ['app\Auth\Character', 'NewCharacter'],
+
     ];
 
     public static function LoadClass($opcode, $serv, $fd, $data = null, $mapOpcode = null)
@@ -53,6 +56,7 @@ class Reflection
     public function serversend($serv, $fd, $packdata = null)
     {
         $packdata = '#' . ToStr($packdata) . '!';
+
         if (env('MSG_DEBUG', false)) {
             WORLD_LOG("Send: " . $packdata, 'info');
         }

@@ -26,7 +26,7 @@ class User
 
             if ($data[$i] > 0) {
                 $param    = ToStr(array_slice($data, $i + 1, $data[$i]));
-                $param    = mb_convert_encoding($param, 'utf8', 'GB2312');
+                $param    = gbktoutf8($param);
                 $params[] = $param;
                 $i += $data[$i];
                 $num++;
@@ -126,7 +126,8 @@ class User
 
                     $body = '';
                     foreach ($ServerInfoList as $k => $v) {
-                        $body .= $v['name'] . '/' . $v['id'] . '/';
+                        $name = utf8togbk($v['name']);
+                        $body .= $name . '/' . $v['id'] . '/';
                     }
 
                     $EncodeHeader = PacketHandler::PacketHeader(ServerState::SM_PASSOK_SELECTSERVER, 0, 0, 0, count($ServerInfoList));
@@ -144,7 +145,7 @@ class User
                 $EncodeHeader = PacketHandler::PacketHeader(ServerState::SM_PASSWD_FAIL, ServerState::WrongPwd, 0, 0, 0);
             }
         } else {
-            $EncodeHeader = PacketHandler::PacketHeader(ServerState::SM_ID_NOTFOUND, ServerState::UserNotFound, 0, 0, 0);
+            $EncodeHeader = PacketHandler::PacketHeader(ServerState::SM_PASSWD_FAIL, ServerState::UserNotFound, 0, 0, 0);
         }
 
         return PacketHandler::Encode($EncodeHeader);
@@ -159,17 +160,17 @@ class User
             ];
 
             $UserInfo = [
-	            'online' => 0,
-	        ];
+                'online' => 0,
+            ];
 
-	        go(function () use ($where, $UserInfo) {
-	            DB::table('users')->where($where)->update($UserInfo);
-	        });
-        }else{
-        	go(function (){
-        		$sql = 'update users set online = 0';
-	            DB::table('users')->query($sql);
-	        });
+            go(function () use ($where, $UserInfo) {
+                DB::table('users')->where($where)->update($UserInfo);
+            });
+        } else {
+            go(function () {
+                $sql = 'update users set online = 0';
+                DB::table('users')->query($sql);
+            });
         }
     }
 
@@ -202,5 +203,27 @@ class User
         }
 
         return PacketHandler::Encode($EncodeHeader);
+    }
+
+    //选择服务器
+    public static function SelectServer($serv, $fd, $data = null)
+    {
+        $params = ToStr($data);
+        $params = gbktoutf8($params);
+
+        $where = [
+            'name' => $params,
+        ];
+
+        if ($info = DB::table('server_infos')->where($where)->find()) {
+            $body = $info['game_server_ip'] . '/' . $info['game_server_port'];
+
+            $EncodeHeader = PacketHandler::PacketHeader(ServerState::SM_SELECTSERVER_OK, 0, 0, 0, 0);
+
+            return array_merge(PacketHandler::Encode($EncodeHeader), PacketHandler::Encode($body));
+        } else {
+            $EncodeHeader = PacketHandler::PacketHeader(ServerState::SM_ID_NOTFOUND, 0, 0, 0, 0);
+            return PacketHandler::Encode($EncodeHeader);
+        }
     }
 }

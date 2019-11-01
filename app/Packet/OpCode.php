@@ -15,6 +15,8 @@ class OpCode
     const CM_UPDATEUSER      = 2004; // 更新注册资料
     const CM_GETBACKPASSWORD = 2010; // 密码找回
 
+    const Unknown5001 = 5001; //未知
+
     const CM_SELECTSERVER        = 104;
     const SM_CERTIFICATION_FAIL  = 501; //登录世界认证失败
     const SM_ID_NOTFOUND         = 502; //账户未找到

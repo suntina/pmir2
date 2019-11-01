@@ -124,6 +124,9 @@ Linux:
     安装数据库
     新建phpmir2数据库,并将根目录中sql里的文件导入到数据库
 
+    修改服务器ip
+    server_infos表中的game_server_ip修改为部署的服务器的外网ip
+
 
     下载phpmir2客户端
     添加游戏,并输入部署服务端的ip地址及端口,选择保存后即可点击开始游戏

@@ -1,6 +1,7 @@
 <?php
 namespace app;
 
+use app\Auth\User;
 use app\Common\Checksystem;
 use app\Common\DbService;
 use app\Message;
@@ -8,7 +9,6 @@ use app\Packet\OpCode;
 use app\Reflection;
 use app\Socket\SwooleTcp;
 use core\lib\Cache;
-use app\Auth\User;
 
 /**
  * service
@@ -35,7 +35,7 @@ class Server
 
         $GetServerInfos = DbService::Execution('GetServerInfos');
 
-        User::Offline();//全部下线
+        User::Offline(); //全部下线
 
         self::$ServerConfig = $GetServerInfos[0];
 
@@ -128,6 +128,8 @@ class Server
         Server::$clientparam[$fd]['state'] = 1; //初始化状态
 
         Connection::saveCheckConnector($fd); //保存连接到待检池
+
+        $serv->send($fd, 'fvpvTbKVC\WnpqQvh_xdY\\'); //不发登录不了(验证什么的吧)
     }
 
     /**
@@ -211,9 +213,8 @@ class Server
     {
         WORLD_LOG("Clear Cache");
 
-        if(!empty(Server::$clientparam[$fd]['UserInfo']))
-        {
-            User::Offline(Server::$clientparam[$fd]['UserInfo']['id']);//下线
+        if (!empty(Server::$clientparam[$fd]['UserInfo'])) {
+            User::Offline(Server::$clientparam[$fd]['UserInfo']['id']); //下线
         }
 
         Server::$clientparam[$fd] = [];
